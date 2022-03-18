@@ -29,6 +29,7 @@ import InfoModal from '../../../../UI/Swaps/components/InfoModal';
 import { MAINNET } from '../../../../../constants/network';
 import ImageIcons from '../../../../UI/ImageIcon';
 import { ThemeContext, mockTheme } from '../../../../../util/theme';
+import sanitizeUrl from '../../../../../util/sanitizeUrl';
 
 const createStyles = (colors) =>
 	StyleSheet.create({
@@ -39,7 +40,7 @@ const createStyles = (colors) =>
 		},
 		informationWrapper: {
 			flex: 1,
-			paddingHorizontal: 24,
+			paddingHorizontal: 15,
 		},
 		scrollWrapper: {
 			flex: 1,
@@ -739,7 +740,11 @@ class NetworkSettings extends PureComponent {
 	popularNetworks = () => {
 		const colors = this.context.colors || mockTheme.colors;
 		const styles = createStyles(colors);
-		return PopularList.map((item, index) => (
+		const filteredPopularList = PopularList.filter(
+			(val) => !this.props.frequentRpcList.some((val2) => sanitizeUrl(val.rpcUrl) === sanitizeUrl(val2.rpcUrl))
+		);
+
+		return filteredPopularList.map((item, index) => (
 			<TouchableOpacity key={index} style={styles.popularNetwork} onPress={() => this.togglePopularNetwork(item)}>
 				{this.state.showWarningModal && (
 					<InfoModal
