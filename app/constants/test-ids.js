@@ -16,3 +16,11 @@ export const ENTER_ALIAS_INPUT_BOX_ID = 'address-alias-input';
 export const NETWORK_LIST_MODAL_CONTAINER_ID = 'networks-list';
 export const OTHER_NETWORK_LIST_ID = 'other-network-name';
 export const NETWORK_SCROLL_ID = 'other-networks-scroll';
+
+export const APPROVE_NETWORK_APPROVE_BUTTON_ID = 'approve-network-approve-button';
+export const APPROVE_NETWORK_CANCEL_BUTTON_ID = 'approve-network-cancel-button';
+
+export const REMOVE_NETWORK_ID = 'remove-network-button';
+export const ADD_NETWORK_ID = 'add-network-button';
+export const ADD_NETWORK_BUTTON_ID = 'add-network-button';
+export const RPC_SCREEN = 'new-rpc-screen';
