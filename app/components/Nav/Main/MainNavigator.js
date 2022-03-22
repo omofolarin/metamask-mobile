@@ -25,7 +25,6 @@ import WalletConnectSessions from '../../Views/WalletConnectSessions';
 import OfflineMode from '../../Views/OfflineMode';
 import QrScanner from '../../Views/QRScanner';
 import LockScreen from '../../Views/LockScreen';
-import ChoosePasswordSimple from '../../Views/ChoosePasswordSimple';
 import EnterPasswordSimple from '../../Views/EnterPasswordSimple';
 import ChoosePassword from '../../Views/ChoosePassword';
 import ResetPassword from '../../Views/ResetPassword';
@@ -53,6 +52,10 @@ import OptinMetrics from '../../UI/OptinMetrics';
 import Drawer from '../../UI/Drawer';
 import DetectedTokens from '../../Views/DetectedTokens';
 import DetectedTokensConfirmation from '../../Views/DetectedTokensConfirmation';
+import ThemeSettings from '../../Views/ThemeSettings';
+import AssetOptions from '../../Views/AssetOptions';
+import AssetDetails from '../../Views/AssetDetails';
+import { colors as importedColors } from '../../../styles/common';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -99,10 +102,26 @@ const WalletModalStack = () => (
 	</Stack.Navigator>
 );
 
+/* eslint-disable react/prop-types */
+const AssetStackFlow = (props) => (
+	<Stack.Navigator initialRouteName={'Asset'}>
+		<Stack.Screen name={'Asset'} component={Asset} initialParams={props.route.params} />
+		<Stack.Screen name={'AssetDetails'} component={AssetDetails} initialParams={props.route.params} />
+	</Stack.Navigator>
+);
+
+const AssetModalFlow = (props) => (
+	<Stack.Navigator mode={'modal'} initialRouteName={'AssetStackFlow'} screenOptions={clearStackNavigatorOptions}>
+		<Stack.Screen name={'AssetStackFlow'} component={AssetStackFlow} initialParams={props.route.params} />
+		<Stack.Screen name={'AssetOptions'} component={AssetOptions} />
+	</Stack.Navigator>
+);
+/* eslint-enable react/prop-types */
+
 const WalletTabHome = () => (
 	<Stack.Navigator initialRouteName={'WalletView'}>
 		<Stack.Screen name="WalletView" component={WalletModalStack} options={{ headerShown: false }} />
-		<Stack.Screen name="Asset" component={Asset} options={Asset.navigationOptions} />
+		<Stack.Screen name="Asset" component={AssetModalFlow} options={{ headerShown: false }} />
 		<Stack.Screen name="AddAsset" component={AddAsset} options={AddAsset.navigationOptions} />
 		<Stack.Screen name="Collectible" component={Collectible} options={Collectible.navigationOptions} />
 		<Stack.Screen
@@ -162,8 +181,8 @@ const Webview = () => (
 	</Stack.Navigator>
 );
 
-const SettingsView = () => (
-	<Stack.Navigator>
+const SettingsFlow = () => (
+	<Stack.Navigator initialRouteName={'Settings'}>
 		<Stack.Screen name="Settings" component={Settings} options={Settings.navigationOptions} />
 		<Stack.Screen name="GeneralSettings" component={GeneralSettings} options={GeneralSettings.navigationOptions} />
 		<Stack.Screen
@@ -200,11 +219,6 @@ const SettingsView = () => (
 			component={WalletConnectSessions}
 			options={WalletConnectSessions.navigationOptions}
 		/>
-		<Stack.Screen
-			name="ChoosePasswordSimple"
-			component={ChoosePasswordSimple}
-			options={ChoosePasswordSimple.navigationOptions}
-		/>
 		<Stack.Screen name="ResetPassword" component={ResetPassword} options={ResetPassword.navigationOptions} />
 		<Stack.Screen
 			name="AccountBackupStep1B"
@@ -231,6 +245,17 @@ const SettingsView = () => (
 			component={EnterPasswordSimple}
 			options={EnterPasswordSimple.navigationOptions}
 		/>
+	</Stack.Navigator>
+);
+
+const SettingsModalStack = () => (
+	<Stack.Navigator
+		initialRouteName={'SettingsFlow'}
+		mode={'modal'}
+		screenOptions={{ headerShown: false, cardStyle: { backgroundColor: importedColors.transparent } }}
+	>
+		<Stack.Screen name={'SettingsFlow'} component={SettingsFlow} />
+		<Stack.Screen name={'ThemeSettings'} component={ThemeSettings} options={{ animationEnabled: false }} />
 	</Stack.Navigator>
 );
 
@@ -355,7 +380,7 @@ const MainNavigator = () => (
 			component={CollectiblesDetails}
 			options={{
 				//Refer to - https://reactnavigation.org/docs/stack-navigator/#animations
-				cardStyle: { backgroundColor: 'transparent' },
+				cardStyle: { backgroundColor: importedColors.transparent },
 				cardStyleInterpolator: () => ({
 					overlayStyle: {
 						opacity: 0,
@@ -365,7 +390,7 @@ const MainNavigator = () => (
 		/>
 		<Stack.Screen name="Home" tabBarVisible={false} component={HomeTabs} />
 		<Stack.Screen name="Webview" component={Webview} />
-		<Stack.Screen name="SettingsView" component={SettingsView} />
+		<Stack.Screen name="SettingsView" component={SettingsModalStack} />
 		<Stack.Screen name="ImportPrivateKeyView" component={ImportPrivateKeyView} />
 		<Stack.Screen name="SendView" component={SendView} />
 		<Stack.Screen name="SendFlowView" component={SendFlowView} />
