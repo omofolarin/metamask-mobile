@@ -17,8 +17,10 @@ export const NETWORK_LIST_MODAL_CONTAINER_ID = 'networks-list';
 export const OTHER_NETWORK_LIST_ID = 'other-network-name';
 export const NETWORK_SCROLL_ID = 'other-networks-scroll';
 
+export const APPROVE_NETWORK_MODAL_ID = 'approve-network-modal';
 export const APPROVE_NETWORK_APPROVE_BUTTON_ID = 'approve-network-approve-button';
 export const APPROVE_NETWORK_CANCEL_BUTTON_ID = 'approve-network-cancel-button';
+export const APPROVE_NETWORK_DISPLAY_NAME_ID = 'approve-network-display-name-id';
 
 export const REMOVE_NETWORK_ID = 'remove-network-button';
 export const ADD_NETWORK_ID = 'add-network-button';
